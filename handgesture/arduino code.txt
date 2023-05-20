@@ -1,0 +1,36 @@
+
+int ledPin = 0; // the pin that the LED is attached to
+int incomingByte;      // a variable to read incoming serial data into
+unsigned long startTime = 0;
+void setup() {
+  // initialize serial communication:
+  Serial.begin(9600);
+  // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);
+  startTime = millis();
+}
+
+void loop() {
+  unsigned long elapsedTime = millis() - startTime;
+  if (Serial.available()) {
+    String inputString = "";
+    char c = Serial.read();
+    if (isdigit(c)) {
+      inputString += c;
+    }
+  int pin_number = inputString.toInt();
+  ledPin = pin_number;
+  pinMode(ledPin, OUTPUT);
+  }
+
+  if (elapsedTime >= 8000) {
+    digitalWrite(ledPin, LOW);  // turn off the LED
+  }
+  else
+  {
+    digitalWrite(ledPin, HIGH);
+    delay(2000);
+    digitalWrite(ledPin, LOW);
+    delay(2000);
+  }
+}
